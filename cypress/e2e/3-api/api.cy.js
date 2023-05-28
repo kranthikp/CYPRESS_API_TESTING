@@ -36,7 +36,7 @@ describe('API Testing with Cypress', () => {
     cy.get('@nonExistingUser').its('status').should('equal', 404)
   })
 
-  it.only('API Test - GET Request', () => {
+  it('API Test - GET Request', () => {
     cy.request({ url: '/users/2', method: 'GET' }).as('user')
     cy.get('@user').then((res) => {
       cy.log(JSON.stringify(res.body))
@@ -49,7 +49,7 @@ describe('API Testing with Cypress', () => {
     })
   })
 
-  it.only('API Test - POST Request', () => {
+  it('API Test - POST Request', () => {
     cy.request({
       url: '/login',
       method: 'POST',
@@ -66,7 +66,7 @@ describe('API Testing with Cypress', () => {
     })
   })
 
-  it.only('API Test - POST Request - Error', () => {
+  it('API Test - POST Request - Error', () => {
     cy.request({
       url: '/login',
       method: 'POST',
@@ -80,6 +80,30 @@ describe('API Testing with Cypress', () => {
     cy.get('@loginRequest').then((res) => {
       expect(res.body.error).to.equal('Missing password')
       cy.log(res.body.error)
+    })
+  })
+
+  it('API Test - DELETE Request', () => {
+    cy.request({
+      url: '/users/2',
+      method: 'DELETE',
+    }).as('deleteUser')
+
+    cy.get('@deleteUser').its('status').should('equal', 204)
+  })
+
+  it('API Test - PUT Request', () => {
+    cy.request({
+      url: '/users/2',
+      method: 'PUT',
+      body: {
+        name: 'name-update'
+      },
+    }).as('updateUser')
+
+    cy.get('@updateUser').its('status').should('equal', 200)
+    cy.get('@updateUser').then((res)=>{
+        expect(res.body.name).to.equal('name-update')
     })
   })
 })

@@ -37,4 +37,15 @@ describe('API Testing with Cypress', ()=>{
         .its('status')
         .should('equal', 404)
     });
+
+    it.only('API Test - GET Request', () => {
+        cy.request({url: '/users/2', method: 'GET'}).as('user')
+        cy.get('@user')
+        .then((res)=>{
+            cy.log(JSON.stringify(res.body))
+            expect(res.body.data.id).equal(2)
+            expect(res.body.data.email).contain('janet.weaver')
+            expect(res.body.data.last_name).not.to.contain('SomeName')
+        })
+    });
 })

@@ -72,7 +72,7 @@ describe('API Testing with Cypress', () => {
       method: 'POST',
       failOnStatusCode: false,
       body: {
-        email: 'eve.holt@reqres.in'
+        email: 'eve.holt@reqres.in',
       },
     }).as('loginRequest')
 
@@ -97,13 +97,14 @@ describe('API Testing with Cypress', () => {
       url: '/users/2',
       method: 'PUT',
       body: {
-        name: 'name-update'
+        dname: 'name-update',
       },
+      auth: { bearer: 'my-token' },
     }).as('updateUser')
 
     cy.get('@updateUser').its('status').should('equal', 200)
-    cy.get('@updateUser').then((res)=>{
-        expect(res.body.name).to.equal('name-update')
+    cy.get('@updateUser').then((res) => {
+      expect(res.body.name).to.equal('name-update')
     })
   })
 })

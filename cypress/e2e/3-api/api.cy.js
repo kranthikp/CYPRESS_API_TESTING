@@ -1,4 +1,4 @@
-/// <references types="cypres" />
+/// <references types="cypress" />
 
 describe('API Testing with Cypress', () => {
   it('passes', () => {
